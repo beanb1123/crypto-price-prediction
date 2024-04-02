@@ -14,11 +14,11 @@ const binance = new Binance().options({
         });
 
 const [,,pair, intvl] = process.argv;
-const sequenceLength = 1;
+const sequenceLength = 5;
 const batchSize = 32;
 const epochs = 150;
 const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : 'BNBUSDT';
-const interval = typeof intvl !== 'undefined' ? intvl.toString() : '5m';
+const interval = typeof intvl !== 'undefined' ? intvl.toString() : '1m';
 const learningRate = '0.01';
 
 // Get price data for a cryptocurrency
