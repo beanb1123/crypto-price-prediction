@@ -10,7 +10,7 @@ async function main() {
 
 const binance = new Binance().options({
             useServerTime: false,
-            family: 4,
+            family: 6,
             verbose: true, // Add extra output when subscribing to WebSockets, etc
             urls: {
                 base: "https://api.binance.us/api/",
