@@ -27,6 +27,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     console.log(`Error: ${error}`);
   } else {
     // Prepare data for training
+    console.log(ticks);
     const data = ticks.slice(-sequenceLength - batchSize).map(tick => parseFloat(tick[4]));
     const xs = [];
     const ys = [];
