@@ -14,7 +14,7 @@ const binance = new Binance().options({
         });
 
 const [,,pair, intvl] = process.argv;
-const sequenceLength = 5;
+const sequenceLength = 1;
 const batchSize = 32;
 const epochs = 100;
 const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : 'BNBUSDT';
@@ -61,7 +61,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
       let real_price;
-      await new Promise(resolve => setTimeout(resolve, 300000));
+      await new Promise(resolve => setTimeout(resolve, 60000));
       const asyncAwait = (async _ => {
         try {
           const response = await binance.prices("BNBUSDT")
