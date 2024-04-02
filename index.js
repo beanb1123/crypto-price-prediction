@@ -58,6 +58,17 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
       const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+      const asyncAwait = (async _ => {
+        try {
+          const response = await binance.prices("BNBUSDT")
+          console.log(response)
+        } catch (error) {
+          console.error(error)
+        }
+      })()
+                
+      await new Promise(resolve => setTimeout(resolve, 300000));
       console.log(`\n====================\n`);
       console.log(`Next ${coinPair} price prediction: ${formattedPrice}`);
       console.log(`\n====================\n`);
