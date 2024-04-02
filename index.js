@@ -44,7 +44,7 @@ for (let i = 0; i < data.length - sequenceLength; i++) {
 }
               
     // Reshape data for LSTM 
-    const input = tf.tensor2d(xs);
+    const input = tf.tensor3d(xs);
     const output = tf.tensor1d(ys);
 
     // Define and train model
@@ -52,7 +52,7 @@ for (let i = 0; i < data.length - sequenceLength; i++) {
   const model = tf.sequential();
   model.add(tf.layers.lstm({
    units: sequenceLength, // Adjust units as needed
-   inputShape: [sequenceLength, input], 
+   inputShape: [sequenceLength, xs.length], 
    returnSequences: false // Return single output for prediction
   }));
   model.add(tf.layers.dense({ units: 1 })); 
