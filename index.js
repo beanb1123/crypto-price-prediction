@@ -44,7 +44,7 @@ for (let i = 0; i < data.length - sequenceLength; i++) {
 }
               
     // Reshape data for LSTM 
-    const input = tf.tensor3d(xs, [xs.length, sequenceLength, 1]);
+    const input = tf.tensor2d(xs);
     const output = tf.tensor1d(ys);
 
     // Define and train model
