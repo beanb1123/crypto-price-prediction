@@ -3,16 +3,22 @@ const tf = require('@tensorflow/tfjs-node');
 const Binance = require('node-binance-api');
 
 const binance = new Binance().options({
-  APIKEY: process.env.BINANCE_APIKEY,
-  APISECRET: process.env.BINANCE_APISECRET
-});
+            useServerTime: true,
+            recvWindow: 60000,
+            family: 4,
+            verbose: true, // Add extra output when subscribing to WebSockets, etc
+            urls: {
+                base: "https://api.binance.us/api/",
+                stream: "wss://ws-api.binance.us/ws-api/v3/"
+            },
+        });
 
 const [,,pair, intvl] = process.argv;
 const sequenceLength = 24;
 const batchSize = 32;
 const epochs = 150;
-const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : 'BTCUSDT';
-const interval = typeof intvl !== 'undefined' ? intvl.toString() : '1h';
+const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : 'BNBUSDT';
+const interval = typeof intvl !== 'undefined' ? intvl.toString() : '5m';
 const learningRate = '0.01';
 
 // Get price data for a cryptocurrency
