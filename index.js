@@ -15,7 +15,7 @@ const binance = new Binance().options({
 
 const [,,pair, intvl] = process.argv;
 const sequenceLength = 5;
-const batchSize = 32;
+const batchSize = 5;
 const epochs = 1000;
 const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : 'BNBUSDT';
 const interval = typeof intvl !== 'undefined' ? intvl.toString() : '1m';
