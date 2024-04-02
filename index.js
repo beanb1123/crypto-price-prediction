@@ -10,9 +10,8 @@ async function main() {
 
 const binance = new Binance().options({
             useServerTime: false,
-            family: 6,
-            verbose: true, // Add extra output when subscribing to WebSockets, etc
-            urls: {
+            family: 4,
+                urls: {
                 base: "https://api.binance.us/api/",
                 stream: "wss://ws-api.binance.us/ws-api/v3/"
             },
@@ -43,26 +42,30 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       xs.push(x);
       ys.push(y);
     }
-    const input = tf.tensor2d(xs);
+    // Reshape data for LSTM 
+    const input = tf.tensor3d([xs], undefined, 'float32');
     const output = tf.tensor1d(ys);
 
     // Define and train model
-    const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 100000, inputShape: [sequenceLength],  activation: 'relu'}));
-    model.add(tf.layers.dense({ units: 1 }));
+    // LSTM Model 
+  const model = tf.sequential();
+  model.add(tf.layers.lstm({
+   units: sequenceLength, // Adjust units as needed
+   inputShape: [sequenceLength, 1], 
+   returnSequences: false // Return single output for prediction
+  }));
+  model.add(tf.layers.dense({ units: 1 })); 
 
-    model.compile({ 
-        optimizer: tf.train.adam(learningRate), 
-        loss:  tf.metrics.meanAbsoluteError,
-        metrics: ['mae']
-    });
+  model.compile({ 
+    optimizer: tf.train.adam(learningRate), 
+    loss: 'meanAbsoluteError', // Suitable for price data
+    metrics: ['mae'] // Track mean absolute error
+  });
 
-    let pred_price;
-              
-    model.fit(input, output, { batchSize, epochs }).then(() => {
+  await model.fit(input, output, { batchSize, epochs }).then(() => {
       // Make a price prediction
       const latestData = data.slice(-sequenceLength);
-      const input = tf.tensor2d([latestData]);
+      const input = tf.tensor3d([latestData], undefined, 'float32');
       const prediction = model.predict(input).dataSync()[0];
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
       const nextPrice = latestPrice + prediction;
