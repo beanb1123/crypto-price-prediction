@@ -56,7 +56,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const input = tf.tensor2d([latestData]);
       const prediction = model.predict(input).dataSync()[0];
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
-      const nextPrice = latestPrice + prediction;
+      const nextPrice = prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
       console.log(`\n====================\n`);
       console.log(`Next ${coinPair} price prediction: ${formattedPrice}`);
