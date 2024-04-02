@@ -63,7 +63,12 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
-      
+      console.log(`\n====================\n`);
+      console.log(`${coinPair} price prediction: ${formattedPrice} -- Real price: ${real_price}`);
+      console.log(`\n====================\n`);
+
+    });
+
     let real_price;
 
     let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -72,16 +77,12 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const asyncAwait = (async _ => {
         try {
           const response = await binance.prices("BNBUSDT")
-          real_price = response; 
+          console.log(response); 
         } catch (error) {
           console.error(error)
         }
       })()         
       
-      console.log(`\n====================\n`);
-      console.log(`${coinPair} price prediction: ${formattedPrice} -- Real price: ${real_price}`);
-      console.log(`\n====================\n`);
-
-    });
+              
   }
 });
