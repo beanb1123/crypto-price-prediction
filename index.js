@@ -21,7 +21,6 @@ const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : '
 const interval = typeof intvl !== 'undefined' ? intvl.toString() : '1m';
 const learningRate = '0.01';
 
-async function main() {
 // Get price data for a cryptocurrency
 binance.candlesticks(coinPair, interval, (error, ticks) => {
   if (error) {
@@ -64,16 +63,16 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
         try {
           const response = await binance.prices("BNBUSDT")
           console.log(response)
+          await new Promise(resolve => setTimeout(resolve, 300000));
         } catch (error) {
           console.error(error)
         }
       })()
                 
-      await new Promise(resolve => setTimeout(resolve, 300000));
+      
       console.log(`\n====================\n`);
       console.log(`Next ${coinPair} price prediction: ${formattedPrice}`);
       console.log(`\n====================\n`);
     });
   }
 });
-main();
