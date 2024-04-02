@@ -84,5 +84,5 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     sleep(wait_time);
       
-    let real_price = await (await fetch('https://www.binance.us/api/v3/ticker/price?symbol=BNBUSDT')).json();
+    let real_price = await fetch('https://www.binance.us/api/v3/ticker/price?symbol=BNBUSDT').json();
     console.log(real_price);
