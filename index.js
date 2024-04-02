@@ -4,6 +4,10 @@ const Binance = require('node-binance-api');
 
 const fetch = require('node-fetch2');
 
+let s_time = Date.now();
+
+async function main() {
+
 const binance = new Binance().options({
             useServerTime: true,
             recvWindow: 60000,
@@ -23,7 +27,7 @@ const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : '
 const interval = typeof intvl !== 'undefined' ? intvl.toString() : '1m';
 const learningRate = '0.01';
 
-let s_time = Date.now();
+
 //let s_time = Date.now(); Get price data for a cryptocurrency
 binance.candlesticks(coinPair, interval, (error, ticks) => {
   if (error) {
@@ -72,6 +76,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     });                  
   }
 });
+}
 
   async function final() {  
 
@@ -88,4 +93,5 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     console.log(real_price);
 
   }
+main();
 final();
