@@ -21,7 +21,7 @@ const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : '
 const interval = typeof intvl !== 'undefined' ? intvl.toString() : '1m';
 const learningRate = '0.01';
 
-
+async function main() {
 // Get price data for a cryptocurrency
 binance.candlesticks(coinPair, interval, (error, ticks) => {
   if (error) {
@@ -52,6 +52,8 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
         metrics: ['mae']
     });
 
+    async function fit() {
+
     model.fit(input, output, { batchSize, epochs }).then(() => {
       // Make a price prediction
       const latestData = data.slice(-sequenceLength);
@@ -61,10 +63,11 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
       let real_price;
-      async function main() {
+      
+       
       await new Promise(resolve => setTimeout(resolve, 60000));
-      }
-      main();
+      
+      
       const asyncAwait = (async _ => {
         try {
           const response = await binance.prices("BNBUSDT")
@@ -72,12 +75,15 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
         } catch (error) {
           console.error(error)
         }
-      })()
-                
+      })()         
       
       console.log(`\n====================\n`);
       console.log(`${coinPair} price prediction: ${formattedPrice} -- Real price: ${real_price}`);
       console.log(`\n====================\n`);
     });
+    }
+    await fit();
   }
 });
+}
+main();
