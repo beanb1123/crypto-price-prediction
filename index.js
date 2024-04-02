@@ -93,5 +93,9 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     console.log(real_price);
 
   }
-main();
-final();
+
+async function all() {
+await main();
+await final();
+}
+all();
