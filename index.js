@@ -33,15 +33,16 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
   } else {
     // Prepare data for training
 
-    const data = ticks.slice(-sequenceLength - batchSize).map(tick => parseFloat(tick[4]));
-    const xs = [];
-    const ys = [];
-    for (let i = 0; i < data.length - sequenceLength; i++) {
-      const x = data.slice(i, i + sequenceLength);
-      const y = data[i + sequenceLength];
-      xs.push(x);
-      ys.push(y);
-    }
+const data = ticks.slice(-sequenceLength - batchSize).map(tick => parseFloat(tick[4]));
+const xs = [];
+const ys = []; 
+for (let i = 0; i < data.length - sequenceLength; i++) {
+  const x = data.slice(i, i + sequenceLength).map(price => parseFloat(price)); // Convert to numbers
+  const y = parseFloat(data[i + sequenceLength]); // Convert to number
+  xs.push(x);
+  ys.push(y);
+}
+              
     // Reshape data for LSTM 
     const input = tf.tensor3d(xs, [xs.length, sequenceLength, 1]);
     const output = tf.tensor1d(ys);
