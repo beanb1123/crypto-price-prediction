@@ -52,8 +52,8 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
         metrics: ['mae']
     });
 
-    async function fit() {
-
+    let pred_price;
+              
     model.fit(input, output, { batchSize, epochs }).then(() => {
       // Make a price prediction
       const latestData = data.slice(-sequenceLength);
@@ -62,10 +62,12 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
       const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-      let real_price;
+      pred_price = formattedPrice;
       
-       
-      await new Promise(resolve => setTimeout(resolve, 60000));
+    });
+    let real_price;
+
+    await new Promise(resolve => setTimeout(resolve, 60000));
       
       
       const asyncAwait = (async _ => {
@@ -78,11 +80,8 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       })()         
       
       console.log(`\n====================\n`);
-      console.log(`${coinPair} price prediction: ${formattedPrice} -- Real price: ${real_price}`);
+      console.log(`${coinPair} price prediction: ${pred_price} -- Real price: ${real_price}`);
       console.log(`\n====================\n`);
-    });
-    }
-    await fit();
   }
 });
 }
