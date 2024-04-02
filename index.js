@@ -9,8 +9,7 @@ let s_time = Date.now();
 async function main() {
 
 const binance = new Binance().options({
-            useServerTime: true,
-            recvWindow: 60000,
+            useServerTime: false,
             family: 4,
             verbose: true, // Add extra output when subscribing to WebSockets, etc
             urls: {
