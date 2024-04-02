@@ -16,7 +16,7 @@ const binance = new Binance().options({
 const [,,pair, intvl] = process.argv;
 const sequenceLength = 5;
 const batchSize = 32;
-const epochs = 100;
+const epochs = 1000;
 const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : 'BNBUSDT';
 const interval = typeof intvl !== 'undefined' ? intvl.toString() : '1m';
 const learningRate = '0.01';
@@ -28,7 +28,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     console.log(`Error: ${error}`);
   } else {
     // Prepare data for training
-    
+    let s_time = Date.now();
     const data = ticks.slice(-sequenceLength - batchSize).map(tick => parseFloat(tick[4]));
     const xs = [];
     const ys = [];
@@ -71,8 +71,14 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
 
     let real_price;
 
+    let e_time = Date.now();
+
+    let minus_time = e_time - s_time;
+
+    let wait_time = 300000 - minus_time;
+
     let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    sleep(300000);
+    sleep(wait_time);
       
       const asyncAwait = (async _ => {
         try {
