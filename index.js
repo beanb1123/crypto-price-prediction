@@ -64,7 +64,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
       console.log(`\n====================\n`);
-      console.log(`${coinPair} price prediction: ${formattedPrice} -- Real price: ${real_price}`);
+      console.log(`${coinPair} price prediction: ${formattedPrice}`);
       console.log(`\n====================\n`);
 
     });
