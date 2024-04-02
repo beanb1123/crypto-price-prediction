@@ -43,7 +43,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       ys.push(y);
     }
     // Reshape data for LSTM 
-    const input = tf.tensor3d([xs], undefined, 'float32');
+    const input = tf.tensor3d(xs, [xs.length, sequenceLength, 1]);
     const output = tf.tensor1d(ys);
 
     // Define and train model
