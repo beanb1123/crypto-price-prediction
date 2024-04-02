@@ -62,7 +62,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     metrics: ['mae'] // Track mean absolute error
   });
 
-  await model.fit(input, output, { batchSize, epochs }).then(() => {
+  model.fit(input, output, { batchSize, epochs }).then(() => {
       // Make a price prediction
       const latestData = data.slice(-sequenceLength);
       const input = tf.tensor3d([latestData], undefined, 'float32');
