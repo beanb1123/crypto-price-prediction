@@ -65,7 +65,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
   model.fit(input, output, { batchSize, epochs }).then(() => {
       // Make a price prediction
       const latestData = data.slice(-sequenceLength);
-      const input = tf.tensor3d([latestData], undefined, 'float32');
+      const input = tf.tensor2d(latestData);
       const prediction = model.predict(input).dataSync()[0];
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
       const nextPrice = latestPrice + prediction;
