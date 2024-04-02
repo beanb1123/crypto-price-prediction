@@ -2,6 +2,8 @@ require('dotenv').config();
 const tf = require('@tensorflow/tfjs-node');
 const Binance = require('node-binance-api');
 
+const fetch = require('node-fetch2');
+
 const binance = new Binance().options({
             useServerTime: true,
             recvWindow: 60000,
