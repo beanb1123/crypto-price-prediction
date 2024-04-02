@@ -27,7 +27,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
     console.log(`Error: ${error}`);
   } else {
     // Prepare data for training
-    console.log(ticks);
+    
     const data = ticks.slice(-sequenceLength - batchSize).map(tick => parseFloat(tick[4]));
     const xs = [];
     const ys = [];
@@ -59,11 +59,11 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
       const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-
+      let real_price;
       const asyncAwait = (async _ => {
         try {
           const response = await binance.prices("BNBUSDT")
-          console.log(response)
+          real_price = response;
           await new Promise(resolve => setTimeout(resolve, 300000));
         } catch (error) {
           console.error(error)
@@ -72,7 +72,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
                 
       
       console.log(`\n====================\n`);
-      console.log(`Next ${coinPair} price prediction: ${formattedPrice}`);
+      console.log(`${coinPair} price prediction: ${formattedPrice} -- Real price: ${real_price}`);
       console.log(`\n====================\n`);
     });
   }
