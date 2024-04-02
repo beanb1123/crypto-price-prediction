@@ -14,12 +14,12 @@ const binance = new Binance().options({
         });
 
 const [,,pair, intvl] = process.argv;
-const sequenceLength = 1;
+const sequenceLength = 24;
 const batchSize = 32;
 const epochs = 500;
 const coinPair = typeof pair !== 'undefined' ? pair.toString().toUpperCase() : 'BNBUSDT';
 const interval = typeof intvl !== 'undefined' ? intvl.toString() : '5m';
-const learningRate = '0.01';
+const learningRate = '0.07';
 
 // Get price data for a cryptocurrency
 binance.candlesticks(coinPair, interval, (error, ticks) => {
@@ -56,7 +56,7 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const input = tf.tensor2d([latestData]);
       const prediction = model.predict(input).dataSync()[0];
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
-      const nextPrice = prediction;
+      const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
       console.log(`\n====================\n`);
       console.log(`Next ${coinPair} price prediction: ${formattedPrice}`);
