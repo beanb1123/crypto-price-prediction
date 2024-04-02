@@ -62,9 +62,8 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       const latestPrice = parseFloat(ticks[ticks.length - 1][4]);
       const nextPrice = latestPrice + prediction;
       const formattedPrice = nextPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-      pred_price = formattedPrice;
+
       
-    });
     let real_price;
 
     let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -80,7 +79,9 @@ binance.candlesticks(coinPair, interval, (error, ticks) => {
       })()         
       
       console.log(`\n====================\n`);
-      console.log(`${coinPair} price prediction: ${pred_price} -- Real price: ${real_price}`);
+      console.log(`${coinPair} price prediction: ${formattedPrice} -- Real price: ${real_price}`);
       console.log(`\n====================\n`);
+
+    });
   }
 });
